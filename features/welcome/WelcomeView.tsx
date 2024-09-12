@@ -6,9 +6,9 @@ export function WelcomeView() {
   return (
     <View flex={1} justifyContent="center">
       <YStack alignSelf="center" width="70%">
-        <NotepadText alignSelf="center" color="$red8" size="$12" />
+        <NotepadText alignSelf="center" color="$red9" size="$12" />
         <SizableText
-          color="$gray11"
+          color="$gray10"
           fontWeight="600"
           mb="$4"
           size="$9"
@@ -17,10 +17,12 @@ export function WelcomeView() {
           Volito Notes
         </SizableText>
         <Link asChild href="/(auth)/login-modal">
-          <Button mb="$2">Login</Button>
+          <Button bg="$red9" mb="$2">
+            Login
+          </Button>
         </Link>
         <Link asChild href="/(auth)/signup-modal">
-          <Button>Sign up</Button>
+          <Button bg="$gray5">Sign up</Button>
         </Link>
       </YStack>
     </View>
