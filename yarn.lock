@@ -4811,7 +4811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tamagui/animations-react-native@npm:1.110.3":
+"@tamagui/animations-react-native@npm:1.110.3, @tamagui/animations-react-native@npm:^1.110.3":
   version: 1.110.3
   resolution: "@tamagui/animations-react-native@npm:1.110.3"
   dependencies:
@@ -17123,6 +17123,7 @@ __metadata:
     "@react-native/eslint-config": "npm:^0.74.83"
     "@react-navigation/native": "npm:^6.1.17"
     "@shopify/flash-list": "npm:1.6.4"
+    "@tamagui/animations-react-native": "npm:^1.110.3"
     "@tamagui/babel-plugin": "npm:^1.110.3"
     "@tamagui/config": "npm:^1.110.3"
     "@tamagui/lucide-icons": "npm:^1.110.3"
