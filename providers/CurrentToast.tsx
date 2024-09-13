@@ -1,8 +1,25 @@
+import { useMemo } from "react";
+
 import { Toast, useToastController, useToastState } from "@tamagui/toast";
-import { Button, H4, XStack, YStack, isWeb } from "tamagui";
+import { Button, H4, ThemeName, XStack, YStack, isWeb } from "tamagui";
 
 export function CurrentToast() {
   const currentToast = useToastState();
+
+  const variant = useMemo((): ThemeName => {
+    switch (currentToast?.customData?.type) {
+      case "success":
+        return "light_green";
+      case "info":
+        return "light_blue";
+      case "error":
+        return "red";
+      case "warning":
+        return "yellow";
+      default:
+        return "purple";
+    }
+  }, [currentToast?.customData?.type]);
 
   if (!currentToast || currentToast.isHandledNatively) return null;
 
@@ -14,7 +31,7 @@ export function CurrentToast() {
       duration={currentToast.duration}
       enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
       exitStyle={{ opacity: 0, scale: 1, y: -20 }}
-      theme="purple"
+      theme={variant}
       viewportName={currentToast.viewportName}
       y={isWeb ? "$12" : 0}
     >
