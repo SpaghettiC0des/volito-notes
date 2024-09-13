@@ -1,4 +1,4 @@
-import { Atom, AudioWaveform } from "@tamagui/lucide-icons";
+import { User, Notebook } from "@tamagui/lucide-icons";
 import { Tabs } from "expo-router";
 import { useTheme } from "tamagui";
 
@@ -8,14 +8,14 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.red10.val,
+        tabBarActiveTintColor: theme.green10,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Japan Trains",
-          tabBarIcon: ({ color }) => <Atom color={color} />,
+          title: "Notes",
+          tabBarIcon: ({ color }) => <Notebook color={color} />,
           // headerRight: () => (
           //   <Link asChild href="/modal">
           //     <Button bg="$purple8" color="$purple12" mr="$4">
@@ -26,10 +26,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="about"
+        name="profile"
         options={{
-          title: "About",
-          tabBarIcon: ({ color }) => <AudioWaveform color={color} />,
+          title: "Profile",
+          tabBarIcon: ({ color }) => <User color={color} />,
         }}
       />
     </Tabs>
