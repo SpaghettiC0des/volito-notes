@@ -1,0 +1,158 @@
+import { useCallback, useState } from "react";
+
+import { valibotResolver } from "@hookform/resolvers/valibot";
+import { useToastController } from "@tamagui/toast";
+import { Stack } from "expo-router";
+import {
+  AuthError,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { Fragment } from "react/jsx-runtime";
+import { Controller, useForm } from "react-hook-form";
+import { Button, Form, Input, Text, Label, YStack } from "tamagui";
+import * as v from "valibot";
+
+const schema = v.object({
+  email: v.pipe(
+    v.string("Email is required"),
+    v.email("Invalid email"),
+    v.minLength(3, "Email is too short"),
+  ),
+  password: v.pipe(
+    v.string("Password is required"),
+    v.minLength(6, "Password is too short"),
+    v.maxLength(30, "Password is too long"),
+  ),
+});
+
+type LoginSchema = v.InferOutput<typeof schema>;
+
+export default function Login() {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: valibotResolver(schema),
+  });
+
+  const toast = useToastController();
+  const [isSigningUp, setIsSigningUp] = useState(false);
+
+  const handleSignUp = useCallback(
+    async ({ email, password }: LoginSchema) => {
+      try {
+        setIsSigningUp(true);
+        await createUserWithEmailAndPassword(getAuth(), email, password);
+        toast.show("Account created successfully", {
+          customData: { type: "success" },
+        });
+      } catch (e) {
+        const error = e as AuthError;
+        toast.show(`Something went wrong: ${error.code}`, {
+          customData: { type: "error" },
+        });
+      } finally {
+        setIsSigningUp(false);
+      }
+    },
+    [toast],
+  );
+
+  const handleSignIn = useCallback(
+    async ({ email, password }: LoginSchema) => {
+      try {
+        setIsSigningUp(true);
+
+        await signInWithEmailAndPassword(getAuth(), email, password);
+        toast.show(`Welcome back!`, { customData: { type: "success" } });
+      } catch (e) {
+        const error = e as AuthError;
+        toast.show(`Something went wrong: ${error.code}`, {
+          customData: { type: "error" },
+        });
+      } finally {
+        setIsSigningUp(false);
+      }
+    },
+    [toast],
+  );
+
+  return (
+    <Fragment>
+      <Stack.Screen options={{ title: "Login" }} />
+      <YStack fullscreen justifyContent="center">
+        <Form mx="$6">
+          <Label>E-mail</Label>
+
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <Input
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="email-address"
+                  placeholder="user@email.com"
+                  textContentType="emailAddress"
+                  value={value}
+                  onChangeText={onChange}
+                />
+              );
+            }}
+          />
+
+          {errors.email && (
+            <Text color="$red10" mt="$2">
+              {errors.email.message}
+            </Text>
+          )}
+          <Label>Password</Label>
+
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <Input
+                  secureTextEntry
+                  autoCorrect={false}
+                  textContentType="password"
+                  value={value}
+                  onChangeText={onChange}
+                />
+              );
+            }}
+          />
+          {errors.password && (
+            <Text color="$red10" mt="$2">
+              {errors.password.message}
+            </Text>
+          )}
+          <Button
+            bg="$red9"
+            color="$white1"
+            disabled={isSigningUp}
+            mt="$6"
+            onPressIn={handleSubmit(handleSignIn)}
+          >
+            Log in
+          </Button>
+          <Button
+            disabled={isSigningUp}
+            // eslint-disable-next-line react-native/no-inline-styles
+            disabledStyle={{ bg: "$gray7" }}
+            mt="$2"
+            variant="outlined"
+            onPressIn={handleSubmit(handleSignUp)}
+          >
+            Create an account
+          </Button>
+        </Form>
+      </YStack>
+    </Fragment>
+  );
+}
