@@ -4,6 +4,7 @@ import { TamaguiProvider, type TamaguiProviderProps } from "tamagui";
 
 import { CurrentToast } from "./CurrentToast";
 import { config } from "../tamagui.config";
+import { NavigationTheme } from "./NavigationTheme";
 
 export function Provider({
   children,
@@ -27,7 +28,7 @@ export function Provider({
         }
         swipeDirection="horizontal"
       >
-        {children}
+        <NavigationTheme>{children}</NavigationTheme>
         <CurrentToast />
         <ToastViewport left={0} right={0} top="$8" />
       </ToastProvider>

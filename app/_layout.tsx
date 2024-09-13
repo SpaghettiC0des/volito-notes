@@ -1,17 +1,10 @@
-import "../tamagui-web.css";
-
 import { useEffect } from "react";
 
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useColorScheme } from "react-native";
+import "shared/firebase";
 
-import { Provider } from "./Provider";
+import { Provider } from "../providers/Provider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,46 +40,49 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-
   return (
     <Provider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={{ headerBackTitleVisible: false }}>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
-          />
+      <Stack
+        screenOptions={({ route }) => {
+          return {
+            presentation: route.name.includes("modal") ? "modal" : undefined,
+            headerBackTitleVisible: false,
+          };
+        }}
+      >
+        {/* <Stack.Screen */}
+        {/*   name="index" */}
+        {/*   options={{ */}
+        {/*     headerShown: false, */}
+        {/*   }} */}
+        {/* /> */}
+        {/**/}
+        {/* <Stack.Screen */}
+        {/*   name="(auth)/login" */}
+        {/*   options={{ */}
+        {/*     title: "Login", */}
+        {/*   }} */}
+        {/* /> */}
+        {/**/}
+        {/* <Stack.Screen */}
+        {/*   name="(auth)/signup" */}
+        {/*   options={{ */}
+        {/*     title: "Sign up", */}
+        {/*     // presentation: "modal", */}
+        {/*   }} */}
+        {/* /> */}
 
-          <Stack.Screen
-            name="lines"
-            options={{
-              title: "Lines",
-            }}
-          />
-
-          <Stack.Screen
-            name="map"
-            options={{
-              title: "Stations",
-              presentation: "modal",
-            }}
-          />
-
-          <Stack.Screen
-            name="modal"
-            options={{
-              title: "Tamagui + Expo",
-              presentation: "modal",
-              animation: "slide_from_right",
-              gestureEnabled: true,
-              gestureDirection: "horizontal",
-            }}
-          />
-        </Stack>
-      </ThemeProvider>
+        {/* <Stack.Screen */}
+        {/*   name="modal" */}
+        {/*   options={{ */}
+        {/*     title: "Tamagui + Expo", */}
+        {/*     presentation: "modal", */}
+        {/*     animation: "slide_from_right", */}
+        {/*     gestureEnabled: true, */}
+        {/*     gestureDirection: "horizontal", */}
+        {/*   }} */}
+        {/* /> */}
+      </Stack>
     </Provider>
   );
 }
