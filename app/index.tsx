@@ -6,7 +6,7 @@ import { WelcomeView } from "features/welcome";
 export default function WelcomeScreen() {
   return (
     <Fragment>
-      <Stack.Screen options={{ headerShown: false }} />
+      <Stack.Screen />
       <WelcomeView />
     </Fragment>
   );
