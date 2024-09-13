@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, useRouter } from "expo-router";
 import "shared/firebase";
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { Provider } from "../providers/Provider";
 
@@ -25,12 +27,20 @@ export default function RootLayout() {
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
 
+  const router = useRouter();
+
   useEffect(() => {
-    if (interLoaded || interError) {
-      // Hide the splash screen after the fonts have loaded (or an error was returned) and the UI is ready.
+    const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
       SplashScreen.hideAsync();
-    }
-  }, [interLoaded, interError]);
+      if (user) {
+        router.replace("/(main)");
+        return;
+      }
+      router.replace("/");
+    });
+
+    return unsubscribe;
+  }, [router]);
 
   if (!interLoaded && !interError) {
     return null;
@@ -49,40 +59,7 @@ function RootLayoutNav() {
             headerBackTitleVisible: false,
           };
         }}
-      >
-        {/* <Stack.Screen */}
-        {/*   name="index" */}
-        {/*   options={{ */}
-        {/*     headerShown: false, */}
-        {/*   }} */}
-        {/* /> */}
-        {/**/}
-        {/* <Stack.Screen */}
-        {/*   name="(auth)/login" */}
-        {/*   options={{ */}
-        {/*     title: "Login", */}
-        {/*   }} */}
-        {/* /> */}
-        {/**/}
-        {/* <Stack.Screen */}
-        {/*   name="(auth)/signup" */}
-        {/*   options={{ */}
-        {/*     title: "Sign up", */}
-        {/*     // presentation: "modal", */}
-        {/*   }} */}
-        {/* /> */}
-
-        {/* <Stack.Screen */}
-        {/*   name="modal" */}
-        {/*   options={{ */}
-        {/*     title: "Tamagui + Expo", */}
-        {/*     presentation: "modal", */}
-        {/*     animation: "slide_from_right", */}
-        {/*     gestureEnabled: true, */}
-        {/*     gestureDirection: "horizontal", */}
-        {/*   }} */}
-        {/* /> */}
-      </Stack>
+      />
     </Provider>
   );
 }
