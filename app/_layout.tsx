@@ -36,7 +36,7 @@ export default function RootLayout() {
         router.replace("/(main)");
         return;
       }
-      router.replace("/");
+      router.replace("/(auth)");
     });
 
     return unsubscribe;
