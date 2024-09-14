@@ -1,10 +1,20 @@
 import { Link } from "expo-router";
-import { Button, Text } from "tamagui";
+import { getAuth, signOut } from "firebase/auth";
+import { Button, View } from "tamagui";
 
 export default function Main() {
   return (
-    <Link asChild href="/(main)/(tabs)">
-      <Button>Go to notes</Button>
-    </Link>
+    <View>
+      <Link asChild href="/(main)/(tabs)">
+        <Button>Go to notes</Button>
+      </Link>
+      <Button
+        onPress={() => {
+          signOut(getAuth());
+        }}
+      >
+        Logout
+      </Button>
+    </View>
   );
 }
