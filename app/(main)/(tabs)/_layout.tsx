@@ -1,37 +1,55 @@
-import { User, Notebook } from "@tamagui/lucide-icons";
-import { Tabs } from "expo-router";
+import { User, Notebook, Map } from "@tamagui/lucide-icons";
+import { Stack, Tabs } from "expo-router";
+import { Fragment } from "react/jsx-runtime";
 import { useTheme } from "tamagui";
 
 export default function TabLayout() {
   const theme = useTheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: theme.green10,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Notes",
-          tabBarIcon: ({ color }) => <Notebook color={color} />,
-          // headerRight: () => (
-          //   <Link asChild href="/modal">
-          //     <Button bg="$purple8" color="$purple12" mr="$4">
-          //       Hello!
-          //     </Button>
-          //   </Link>
-          // ),
+    <Fragment>
+      <Stack.Screen options={{ headerShown: false }} />
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: theme.red10.val,
         }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color }) => <User color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Notes List",
+            tabBarIcon: ({ color }) => <Notebook color={color} />,
+            // headerRight: () => (
+            //   <Link asChild href="/modal">
+            //     <Button bg="$purple8" color="$purple12" mr="$4">
+            //       Hello!
+            //     </Button>
+            //   </Link>
+            // ),
+          }}
+        />
+        <Tabs.Screen
+          name="map"
+          options={{
+            title: "Map",
+            tabBarIcon: ({ color }) => <Map color={color} />,
+            // headerRight: () => (
+            //   <Link asChild href="/modal">
+            //     <Button bg="$purple8" color="$purple12" mr="$4">
+            //       Hello!
+            //     </Button>
+            //   </Link>
+            // ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            tabBarIcon: ({ color }) => <User color={color} />,
+          }}
+        />
+      </Tabs>
+    </Fragment>
   );
 }

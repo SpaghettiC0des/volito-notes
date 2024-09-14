@@ -15,7 +15,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "/(main)/(tabs)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -33,7 +33,7 @@ export default function RootLayout() {
     const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
       SplashScreen.hideAsync();
       if (user) {
-        router.replace("/(main)");
+        router.replace("/(main)/(tabs)");
         return;
       }
       router.replace("/(auth)");
