@@ -1,4 +1,4 @@
-import { User, Notebook, Map } from "@tamagui/lucide-icons";
+import { Notebook, Map } from "@tamagui/lucide-icons";
 import { Stack, Tabs } from "expo-router";
 import { Fragment } from "react/jsx-runtime";
 import { useTheme } from "tamagui";
@@ -40,13 +40,6 @@ export default function TabLayout() {
             //     </Button>
             //   </Link>
             // ),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: "Profile",
-            tabBarIcon: ({ color }) => <User color={color} />,
           }}
         />
       </Tabs>
