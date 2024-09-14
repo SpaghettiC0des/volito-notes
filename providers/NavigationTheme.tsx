@@ -17,7 +17,7 @@ export function NavigationTheme({ children }: PropsWithChildren) {
           background: tamaguiTheme.black1.val,
           card: tamaguiTheme.black2.val,
           text: tamaguiTheme.gray10.val,
-          border: tamaguiTheme.gray5.val,
+          border: tamaguiTheme.gray3.val,
           primary: tamaguiTheme.red10.val,
           notification: tamaguiTheme.purple1.val,
         },
@@ -28,9 +28,9 @@ export function NavigationTheme({ children }: PropsWithChildren) {
       dark: isDark,
       colors: {
         background: tamaguiTheme.white1.val,
-        card: tamaguiTheme.white0.val,
+        card: tamaguiTheme.white2.val,
         text: tamaguiTheme.gray10.val,
-        border: tamaguiTheme.gray10.val,
+        border: tamaguiTheme.gray3.val,
         primary: tamaguiTheme.red10.val,
         notification: tamaguiTheme.purple1.val,
         ...partialTheme.colors,
@@ -41,11 +41,11 @@ export function NavigationTheme({ children }: PropsWithChildren) {
     tamaguiTheme.black1.val,
     tamaguiTheme.black2.val,
     tamaguiTheme.gray10.val,
-    tamaguiTheme.gray5.val,
+    tamaguiTheme.gray3.val,
     tamaguiTheme.purple1.val,
     tamaguiTheme.red10.val,
-    tamaguiTheme.white0.val,
     tamaguiTheme.white1.val,
+    tamaguiTheme.white2.val,
   ]);
 
   return <ThemeProvider value={navigationTheme}>{children}</ThemeProvider>;
