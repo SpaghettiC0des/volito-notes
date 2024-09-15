@@ -71,6 +71,12 @@
         "projectId": "e8e67eaf-718b-45c7-be24-0bce85d334d4"
       }
     },
-    "owner": "spaghettic0des"
+    "owner": "spaghettic0des",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e8e67eaf-718b-45c7-be24-0bce85d334d4"
+    }
   }
 }
