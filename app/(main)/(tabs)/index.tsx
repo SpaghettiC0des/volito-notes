@@ -56,7 +56,6 @@ export default function NotesList() {
     const q = query(collection(db, "notes"), orderBy("date", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
-        console.log(change.type);
         if (change.type === "added") {
           setNotes((prev) => {
             const next = [
