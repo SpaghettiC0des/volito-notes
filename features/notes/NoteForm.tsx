@@ -76,7 +76,7 @@ export function NoteForm({ onSave, note }: Props) {
       try {
         setIsSaving(true);
         await onSave(data);
-        toast.show(`Saved!`, {
+        toast.show(note ? "Updated" : `Saved!`, {
           customData: { type: "success" },
         });
       } catch (e) {
