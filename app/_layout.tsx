@@ -1,7 +1,13 @@
 import { useEffect } from "react";
 
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack, useRouter } from "expo-router";
+import {
+  SplashScreen,
+  Stack,
+  useLocalSearchParams,
+  usePathname,
+  useRouter,
+} from "expo-router";
 import "shared/firebase";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -28,6 +34,7 @@ export default function RootLayout() {
   });
 
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(), (user) => {
@@ -36,7 +43,8 @@ export default function RootLayout() {
         router.replace("/(main)/(tabs)");
         return;
       }
-      router.replace("/(auth)");
+
+      pathname !== "/" && router.replace("/");
     });
 
     return unsubscribe;
