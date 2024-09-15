@@ -12,7 +12,7 @@ export default function TabOneScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, "notes"), where("date", "!=", null));
+    const q = query(collection(db, "notes"), where("location", "!=", null));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
