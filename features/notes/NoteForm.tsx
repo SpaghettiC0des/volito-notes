@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import { useCallback, useEffect, useState } from "react";
 
 import { valibotResolver } from "@hookform/resolvers/valibot";
@@ -5,11 +6,14 @@ import DatePicker from "@react-native-community/datetimepicker";
 import { Check } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { useForegroundPermissions } from "expo-location";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { deleteDoc, doc } from "firebase/firestore";
 import { Fragment } from "react/jsx-runtime";
 import { Controller, useForm } from "react-hook-form";
+import { db } from "shared/firebase";
 import { Note } from "shared/models";
 import {
+  AlertDialog,
   Button,
   Checkbox,
   Form,
@@ -18,9 +22,9 @@ import {
   Text,
   TextArea,
   XStack,
+  YStack,
 } from "tamagui";
 import * as v from "valibot";
-import { Alert } from "react-native";
 const schema = v.object({
   title: v.string("Title is required"),
   body: v.string("Body is required"),
@@ -37,6 +41,7 @@ type Props = {
 
 export function NoteForm({ onSave, note }: Props) {
   const toast = useToastController();
+  const router = useRouter();
 
   const {
     control,
@@ -149,9 +154,77 @@ export function NoteForm({ onSave, note }: Props) {
         />
         <Form.Trigger asChild>
           <Button bg="$red10" disabled={isSaving} mt="$5">
-            Save
+            {note ? "Update" : "Save"}
           </Button>
         </Form.Trigger>
+        <AlertDialog>
+          {note && (
+            <AlertDialog.Trigger asChild>
+              <Button borderColor="$red10" variant="outlined">
+                Delete
+              </Button>
+            </AlertDialog.Trigger>
+          )}
+          <AlertDialog.Portal>
+            <AlertDialog.Overlay
+              key="overlay"
+              animation="quick"
+              enterStyle={{ opacity: 0 }}
+              exitStyle={{ opacity: 0 }}
+              opacity={0.5}
+            />
+            <AlertDialog.Content
+              key="content"
+              bordered
+              elevate
+              animation={[
+                "quick",
+                {
+                  opacity: {
+                    overshootClamping: true,
+                  },
+                },
+              ]}
+              enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+              exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+              opacity={1}
+              scale={1}
+              width="90%"
+              x={0}
+              y={0}
+            >
+              <YStack gap>
+                <AlertDialog.Title>Delete</AlertDialog.Title>
+                <AlertDialog.Description>
+                  Delete this note?
+                </AlertDialog.Description>
+
+                <XStack gap="$3" justifyContent="flex-end">
+                  <AlertDialog.Cancel asChild>
+                    <Button>Cancel</Button>
+                  </AlertDialog.Cancel>
+                  <AlertDialog.Action asChild>
+                    <Button
+                      theme="active"
+                      onPressIn={async () => {
+                        try {
+                          await deleteDoc(doc(db, "notes", note!.id));
+                          router.back();
+                        } catch (e) {
+                          toast.show(`Something went wrong: ${e.message}`, {
+                            customData: { type: "error" },
+                          });
+                        }
+                      }}
+                    >
+                      Yes
+                    </Button>
+                  </AlertDialog.Action>
+                </XStack>
+              </YStack>
+            </AlertDialog.Content>
+          </AlertDialog.Portal>
+        </AlertDialog>
       </Form>
     </Fragment>
   );
