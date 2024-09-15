@@ -12,12 +12,14 @@ import { getCurrentPositionAsync, LocationObject } from "expo-location";
 import { NoteTransient } from "shared/models";
 import { NoteForm, NoteFormSchema } from "features/notes";
 import { useRouter } from "expo-router";
+import { getAuth } from "firebase/auth";
 
 export default function NoteCreate() {
   const router = useRouter();
   const handleSave = useCallback(
     async ({ date, body, title, attachLocation }: NoteFormSchema) => {
       try {
+        const currentUser = getAuth().currentUser;
         const colRef = collection(db, "notes");
         const newNoteDocRef = doc(colRef);
 
@@ -30,6 +32,7 @@ export default function NoteCreate() {
         await setDoc(newNoteDocRef, {
           title,
           body,
+          userId: currentUser?.uid,
           date: Timestamp.fromDate(date),
           location: location?.coords ?? null,
         } as NoteTransient);

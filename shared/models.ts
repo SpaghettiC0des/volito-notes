@@ -3,6 +3,7 @@ import { DocumentData, Timestamp } from "firebase/firestore";
 
 export interface NoteTransient extends DocumentData {
   title: string;
+  userId: string;
   body: string;
   date: Timestamp;
   /**
