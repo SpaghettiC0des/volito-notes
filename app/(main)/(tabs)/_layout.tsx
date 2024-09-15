@@ -94,13 +94,6 @@ export default function TabLayout() {
               </AlertDialog>
             ),
             tabBarIcon: ({ color }) => <Notebook color={color} />,
-            // headerRight: () => (
-            //   <Link asChild href="/modal">
-            //     <Button bg="$purple8" color="$purple12" mr="$4">
-            //       Hello!
-            //     </Button>
-            //   </Link>
-            // ),
           }}
         />
         <Tabs.Screen
@@ -108,13 +101,6 @@ export default function TabLayout() {
           options={{
             title: "Map",
             tabBarIcon: ({ color }) => <Map color={color} />,
-            // headerRight: () => (
-            //   <Link asChild href="/modal">
-            //     <Button bg="$purple8" color="$purple12" mr="$4">
-            //       Hello!
-            //     </Button>
-            //   </Link>
-            // ),
           }}
         />
       </Tabs>
