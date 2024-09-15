@@ -32,7 +32,6 @@ export default function NoteCreate() {
           location: location?.coords ?? null,
         } as NoteTransient);
       } catch (e) {
-        console.warn(e);
         const error = e as FirestoreError;
         throw new Error(error.code);
       }
