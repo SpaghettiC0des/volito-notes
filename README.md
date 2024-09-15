@@ -1,14 +1,15 @@
-# Japan Train Lines
+# Volito Notes
 
+<!--toc:start-->
 
-
-https://github.com/user-attachments/assets/b78eb636-faf1-4f0c-8433-b45c4a334017
-
-
+- [Volito Notes](#volito-notes)
+  - [Running locally](#running-locally)
+  <!--toc:end-->
 
 ## Running locally
+
+1. Download the Expo GO app
+1. Run `yarn set version stable`
+1. Run `yarn install`
 1. Run `yarn start` in the terminal.
-2. Follow the instructions to open the simulator
-
-
-
+1. Open the Expo Go app and scan the QR code.
