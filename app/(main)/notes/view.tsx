@@ -1,48 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 
+import { LocationObject, getCurrentPositionAsync } from "expo-location";
 import { Stack, useLocalSearchParams } from "expo-router";
-import {
-  FirestoreError,
-  Timestamp,
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { NoteForm, NoteFormSchema } from "features/notes";
+import { FirestoreError, Timestamp, doc, updateDoc } from "firebase/firestore";
 import { Fragment } from "react/jsx-runtime";
 import { db } from "shared/firebase";
-import { Note, NoteTransient } from "shared/models";
-import { NoteForm, NoteFormSchema } from "features/notes";
-import { LocationObject, getCurrentPositionAsync } from "expo-location";
+import { NoteTransient } from "shared/models";
 
 export default function NoteById() {
-  const navNote = useLocalSearchParams() as any;
-  const [note, setNote] = useState<Note | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fn = async () => {
-      try {
-        // @ts-expect-error
-        const noteDocRef = await getDoc(doc(db, "notes", id));
-        setNote({
-          id: noteDocRef.id,
-          ...noteDocRef.data(),
-        } as Note);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fn();
-  }, []);
+  const note = useLocalSearchParams() as any;
 
   const handleUpdate = useCallback(
     async ({ date, body, title, attachLocation }: NoteFormSchema) => {
       try {
-        const newNoteDocRef = doc(db, "notes", navNote.id);
+        const newNoteDocRef = doc(db, "notes", note.id);
 
         let location: LocationObject | null = null;
 
@@ -61,18 +33,17 @@ export default function NoteById() {
         throw new Error(error.code);
       }
     },
-    [],
+    [note.id],
   );
+
   return (
     <Fragment>
       <Stack.Screen options={{ title: "View Note" }} />
       <NoteForm
-        note={
-          note || {
-            ...navNote,
-            date: Timestamp.fromMillis(navNote.date),
-          }
-        }
+        note={{
+          ...note,
+          date: Timestamp.fromMillis(note.date),
+        }}
         onSave={handleUpdate}
       />
     </Fragment>
