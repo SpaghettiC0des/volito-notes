@@ -6,13 +6,18 @@ import MapView, { Marker } from "react-native-maps";
 import { db } from "shared/firebase";
 import { Note } from "shared/models";
 import { View } from "tamagui";
+import { getAuth } from "firebase/auth";
 
 export default function TabOneScreen() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, "notes"), where("location", "!=", null));
+    const q = query(
+      collection(db, "notes"),
+      where("userId", "==", getAuth().currentUser?.uid),
+      where("location", "!=", null),
+    );
     const unsubscribe = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
