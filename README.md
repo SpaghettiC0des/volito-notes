@@ -14,7 +14,7 @@
 1. Download the Expo GO app
 2. Open the app and scan the QR code below.
 
-![QR Code](https://qr.expo.dev/eas-update?slug=exp&projectId=e8e67eaf-718b-45c7-be24-0bce85d334d4&groupId=d903ec7f-8eb2-4e87-b5a0-ca43ddf5fdab)
+![QR Code](https://qr.expo.dev/eas-update?slug=exp&projectId=e8e67eaf-718b-45c7-be24-0bce85d334d4&groupId=ebbf5913-f408-4f71-bb95-9932c1c8228b)
 
 ## Running locally
 
