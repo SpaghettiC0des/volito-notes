@@ -1,13 +1,7 @@
 import { useEffect } from "react";
 
 import { useFonts } from "expo-font";
-import {
-  SplashScreen,
-  Stack,
-  useLocalSearchParams,
-  usePathname,
-  useRouter,
-} from "expo-router";
+import { SplashScreen, Stack, usePathname, useRouter } from "expo-router";
 import "shared/firebase";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";

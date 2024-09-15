@@ -14,6 +14,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import { FlatList } from "react-native";
 import { db } from "shared/firebase";
@@ -26,6 +27,7 @@ import {
   Button,
   Spinner,
 } from "tamagui";
+import { getAuth } from "firebase/auth";
 
 export default function NotesList() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -53,8 +55,13 @@ export default function NotesList() {
   }, []);
 
   useEffect(() => {
-    const q = query(collection(db, "notes"), orderBy("date", "desc"));
+    const q = query(
+      collection(db, "notes"),
+      orderBy("date", "desc"),
+      where("userId", "==", getAuth().currentUser?.uid),
+    );
     const unsubscribe = onSnapshot(q, (snapshot) => {
+      setIsLoading(false);
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
           setNotes((prev) => {
@@ -63,17 +70,7 @@ export default function NotesList() {
               { id: change.doc.id, ...change.doc.data() } as Note,
             ];
 
-            return next
-              .sort((a, z) => {
-                const aDate = a.date.toMillis();
-                const zDate = z.date.toMillis();
-
-                return zDate - aDate;
-              })
-              .filter(
-                (v, i, a) =>
-                  a.findIndex((t) => t.id === v.id && t.name === v.name) === i,
-              );
+            return next;
           });
         }
         if (change.type === "modified") {
@@ -90,7 +87,6 @@ export default function NotesList() {
           setNotes((prev) => prev.filter((note) => note.id !== change.doc.id));
         }
       });
-      setIsLoading(false);
     });
     return unsubscribe;
   }, [isLoading]);
