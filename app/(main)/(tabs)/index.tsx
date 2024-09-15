@@ -148,6 +148,18 @@ export default function NotesList() {
         Welcome to Volito Notes!
       </SizableText>
       {isLoading && <Spinner />}
+      <Link asChild href="/notes/create">
+        <Button
+          circular
+          bg="$red10"
+          bottom="$3"
+          elevation="$2"
+          icon={<Pencil size="$2" />}
+          pos="absolute"
+          right="$2"
+          size="$6"
+        />
+      </Link>
     </YStack>
   );
 }
